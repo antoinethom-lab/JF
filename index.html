@@ -2,8 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bénévoles APE</title>
+<base target="_top">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,277 +14,201 @@
     --grey-soft:#ece7df; --shadow:0 1px 2px rgba(44,58,63,.06),0 8px 24px rgba(44,58,63,.07);
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--cream);color:var(--ink);
-    font-family:"Hanken Grotesk",system-ui,sans-serif;line-height:1.5;
-    background-image:radial-gradient(circle at 12% -10%,#fff5e6 0%,transparent 42%),
-                     radial-gradient(circle at 100% 0%,#eef3ec 0%,transparent 35%)}
-  .wrap{max-width:720px;margin:0 auto;padding:32px 18px 64px}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:"Hanken Grotesk",system-ui,sans-serif; line-height:1.5;
+    background-image:radial-gradient(circle at 12% -10%, #fff5e6 0%, transparent 42%),
+                     radial-gradient(circle at 100% 0%, #eef3ec 0%, transparent 35%);
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:32px 18px 64px}
   header{margin-bottom:26px}
-  .kicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--terra);font-weight:700}
-  h1{font-family:"Fraunces",serif;font-weight:600;font-size:2.2rem;line-height:1.08;margin:6px 0 4px;letter-spacing:-.01em}
-  .lead{color:var(--muted);font-size:1.02rem;margin:0}
+  .kicker{font-size:.78rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--terra); font-weight:700}
+  h1{font-family:"Fraunces",serif; font-weight:600; font-size:2.2rem;
+    line-height:1.08; margin:6px 0 4px; letter-spacing:-.01em}
+  .lead{color:var(--muted); font-size:1.02rem; margin:0}
+
   .day{margin-top:30px}
-  .day-label{font-family:"Fraunces",serif;font-style:italic;font-size:1.18rem;
-    display:inline-block;padding:2px 14px 4px;background:var(--paper);
-    border:1px solid var(--line);border-radius:999px;box-shadow:var(--shadow);text-transform:capitalize}
-  .mission{background:var(--paper);border:1px solid var(--line);border-radius:16px;
-    margin-top:14px;box-shadow:var(--shadow);overflow:hidden;
-    opacity:0;transform:translateY(8px);animation:rise .5s ease forwards}
-  @keyframes rise{to{opacity:1;transform:none}}
-  .mission-head{padding:15px 18px 12px;border-bottom:1px solid var(--line);
+  .day-label{font-family:"Fraunces",serif; font-style:italic; font-size:1.18rem;
+    display:inline-block; padding:2px 14px 4px; background:var(--paper);
+    border:1px solid var(--line); border-radius:999px; box-shadow:var(--shadow);
+    text-transform:capitalize}
+
+  .mission{background:var(--paper); border:1px solid var(--line); border-radius:16px;
+    margin-top:14px; box-shadow:var(--shadow); overflow:hidden;
+    opacity:0; transform:translateY(8px); animation:rise .5s ease forwards}
+  @keyframes rise{to{opacity:1; transform:none}}
+  .mission-head{padding:15px 18px 12px; border-bottom:1px solid var(--line);
     background:linear-gradient(0deg,#fffdf9,#fbf7f0)}
-  .m-name{font-weight:700;font-size:1.12rem}
-  .m-sub{color:var(--muted);font-size:.9rem;margin-top:1px}
-  .m-notes{color:var(--muted);font-size:.85rem;font-style:italic;margin-top:4px}
-  .slot{padding:12px 18px;border-bottom:1px solid var(--line)}
+  .m-name{font-weight:700; font-size:1.12rem}
+  .m-sub{color:var(--muted); font-size:.9rem; margin-top:1px}
+  .m-notes{color:var(--muted); font-size:.85rem; font-style:italic; margin-top:4px}
+
+  .slot{padding:12px 18px; border-bottom:1px solid var(--line)}
   .slot:last-child{border-bottom:0}
-  .slot-row{display:flex;align-items:center;gap:12px;justify-content:space-between}
-  .slot-time{font-weight:600;font-variant-numeric:tabular-nums}
-  .slot-right{display:flex;align-items:center;gap:12px}
-  .pill{font-size:.78rem;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
-  .pill.ok{background:var(--green-soft);color:var(--green)}
-  .pill.low{background:var(--amber-soft);color:var(--amber)}
-  .pill.no{background:var(--grey-soft);color:var(--muted)}
-  .add{border:0;cursor:pointer;font-family:inherit;font-weight:700;font-size:.9rem;
-    padding:8px 14px;border-radius:9px;background:var(--terra);color:#fff;
+  .slot-row{display:flex; align-items:center; gap:12px; justify-content:space-between}
+  .slot-time{font-weight:600; font-variant-numeric:tabular-nums}
+  .slot-right{display:flex; align-items:center; gap:12px}
+  .pill{font-size:.78rem; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap}
+  .pill.ok{background:var(--green-soft); color:var(--green)}
+  .pill.low{background:var(--amber-soft); color:var(--amber)}
+  .pill.no{background:var(--grey-soft); color:var(--muted)}
+
+  .add{border:0; cursor:pointer; font-family:inherit; font-weight:700; font-size:.9rem;
+    padding:8px 14px; border-radius:9px; background:var(--terra); color:#fff;
     transition:.18s transform,.18s background}
   .add:hover{background:var(--terra-dark)} .add:active{transform:scale(.97)}
-  .add[disabled]{background:var(--grey-soft);color:var(--muted);cursor:default}
-  .form{display:none;flex-direction:column;gap:10px;margin-top:12px}
+  .add[disabled]{background:var(--grey-soft); color:var(--muted); cursor:default}
+
+  .form{display:none; flex-direction:column; gap:10px; margin-top:12px;
+    animation:rise .3s ease forwards}
   .form.open{display:flex}
-  .form input{font-family:inherit;font-size:.96rem;padding:10px 12px;
-    border:1px solid var(--line);border-radius:10px;background:var(--cream);color:var(--ink)}
-  .form input:focus{outline:2px solid var(--terra);border-color:transparent;background:#fff}
-  .frow{display:flex;gap:10px} .frow>*{flex:1}
-  .factions{display:flex;gap:10px}
-  .btn{border:0;cursor:pointer;font-family:inherit;font-weight:700;font-size:.95rem;
-    padding:10px;border-radius:10px;background:var(--terra);color:#fff;flex:1}
+  .form input{font-family:inherit; font-size:.96rem; padding:10px 12px;
+    border:1px solid var(--line); border-radius:10px; background:var(--cream); color:var(--ink)}
+  .form input:focus{outline:2px solid var(--terra); border-color:transparent; background:#fff}
+  .frow{display:flex; gap:10px} .frow>*{flex:1}
+  .factions{display:flex; gap:10px}
+  .btn{border:0; cursor:pointer; font-family:inherit; font-weight:700; font-size:.95rem;
+    padding:10px; border-radius:10px; background:var(--terra); color:#fff; flex:1}
   .btn:hover{background:var(--terra-dark)}
-  .btn[disabled]{background:var(--grey-soft);color:var(--muted)}
-  .ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
-  .ghost:hover{background:var(--cream);color:var(--ink)}
-  .err{color:var(--terra-dark);font-size:.84rem;font-weight:600}
-  .done{background:var(--green-soft);color:var(--green);border-radius:9px;
-    padding:9px 12px;font-weight:600;font-size:.9rem}
-  .state{text-align:center;color:var(--muted);padding:48px 0}
-  .spin{width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--terra);
-    border-radius:50%;margin:0 auto 14px;animation:rot .8s linear infinite}
+  .btn[disabled]{background:var(--grey-soft); color:var(--muted)}
+  .ghost{background:transparent; color:var(--muted); border:1px solid var(--line)}
+  .ghost:hover{background:var(--cream); color:var(--ink)}
+  .err{color:var(--terra-dark); font-size:.84rem; font-weight:600}
+  .done{background:var(--green-soft); color:var(--green); border-radius:9px;
+    padding:9px 12px; font-weight:600; font-size:.9rem}
+
+  .state{text-align:center; color:var(--muted); padding:48px 0}
+  .spin{width:30px; height:30px; border:3px solid var(--line); border-top-color:var(--terra);
+    border-radius:50%; margin:0 auto 14px; animation:rot .8s linear infinite}
   @keyframes rot{to{transform:rotate(360deg)}}
-  .cancel-box{max-width:480px;margin:80px auto;text-align:center;padding:0 18px}
-  .cancel-box h2{font-family:"Fraunces",serif;font-size:1.6rem;margin-bottom:16px}
-  .cancel-msg{background:var(--paper);border:1px solid var(--line);border-radius:14px;
-    padding:20px;font-size:1rem;box-shadow:var(--shadow)}
-  footer{margin-top:42px;text-align:center;color:var(--muted);font-size:.82rem}
+  footer{margin-top:42px; text-align:center; color:var(--muted); font-size:.82rem}
 </style>
 </head>
 <body>
-<div class="wrap" id="app">
-  <div class="state"><div class="spin"></div>Chargement…</div>
+<div class="wrap">
+  <header>
+    <div class="kicker">Bénévolat</div>
+    <h1 id="titre">Chargement…</h1>
+    <p class="lead" id="lead"></p>
+  </header>
+  <div id="liste"><div class="state"><div class="spin"></div>On récupère les créneaux…</div></div>
+  <footer>Merci pour votre engagement 🧡</footer>
 </div>
 
 <script>
-// =====================================================================
-//  CONFIGURATION — mettre à jour si l'URL Apps Script change
-// =====================================================================
-var API = "https://script.google.com/macros/s/AKfycbwc3nf-ouFEfEQs1PkwA4oB_UADkYUCDYJ1NManjvg1gRX_KblhrxFm9cjTf9rr3F0o/exec";
-// =====================================================================
-
-var app = document.getElementById("app");
-
-// ---- JSONP : contourne les CORS de Safari iOS ----
-// Injecte une balise <script> au lieu d'un fetch(),
-// donc aucune restriction navigateur quelle que soit la plateforme.
-function jsonp(url, cb) {
-  var fn = "_cb" + Date.now() + Math.floor(Math.random() * 1000);
-  var s  = document.createElement("script");
-  var timer = setTimeout(function() {
-    delete window[fn];
-    if (s.parentNode) s.parentNode.removeChild(s);
-    cb(null); // timeout après 12 s
-  }, 12000);
-  window[fn] = function(data) {
-    clearTimeout(timer);
-    delete window[fn];
-    if (s.parentNode) s.parentNode.removeChild(s);
-    cb(data);
-  };
-  s.onerror = function() {
-    clearTimeout(timer);
-    delete window[fn];
-    cb(null);
-  };
-  s.src = url + (url.indexOf("?") >= 0 ? "&" : "?") + "callback=" + fn;
-  document.head.appendChild(s);
-}
-
-// ---- Initialisation ----
-var params     = new URLSearchParams(window.location.search);
-var tokenAnnul = params.get("annuler");
-if (tokenAnnul) {
-  afficherAnnulation(tokenAnnul);
-} else {
-  chargerCreneaux();
-}
-
-// ---- Chargement des créneaux ----
-function chargerCreneaux() {
-  jsonp(API + "?action=getDonnees", function(data) {
-    if (!data) {
-      app.innerHTML = '<div class="state">⚠️ Impossible de charger les créneaux.<br>Vérifiez votre connexion et rechargez.</div>';
-      return;
-    }
-    render(data);
-  });
-}
-
-// ---- Rendu principal ----
-function render(data) {
-  var dispo = data.creneaux.filter(function(c) { return !c.passe; });
-
-  var header =
-    "<header>" +
-      '<div class="kicker">Bénévolat</div>' +
-      "<h1>" + esc(data.association) + "</h1>" +
-      '<p class="lead">' + esc(data.sousTitre || "") + "</p>" +
-    "</header>";
-
-  if (!dispo.length) {
-    app.innerHTML = header + '<div class="state">Aucun créneau ouvert pour le moment.<br>Revenez bientôt !</div>' + pied();
-    return;
+  function init(){
+    google.script.run
+      .withSuccessHandler(render)
+      .withFailureHandler(function(){
+        document.getElementById('liste').innerHTML =
+          '<div class="state">Impossible de charger les créneaux. Rechargez la page.</div>';
+      })
+      .getDonnees();
   }
 
-  var jours = {}, ordreJours = [];
-  dispo.forEach(function(c) {
-    if (!jours[c.dateISO]) { jours[c.dateISO] = { label: c.dateLabel, missions: {}, ordre: [] }; ordreJours.push(c.dateISO); }
-    var jr = jours[c.dateISO];
-    if (!jr.missions[c.mission]) { jr.missions[c.mission] = { lieu: c.lieu, notes: c.notes, items: [] }; jr.ordre.push(c.mission); }
-    jr.missions[c.mission].items.push(c);
-  });
+  function render(data){
+    document.getElementById('titre').textContent = data.association;
+    document.getElementById('lead').textContent  = data.sousTitre || '';
+    var liste = document.getElementById('liste');
 
-  var html = header, delay = 0;
-  ordreJours.forEach(function(iso) {
-    var jr = jours[iso];
-    html += '<div class="day"><div class="day-label">' + esc(jr.label) + "</div>";
-    jr.ordre.forEach(function(nom) {
-      var m = jr.missions[nom];
-      var libres = m.items.reduce(function(s, c) { return s + c.restantes; }, 0);
-      html += '<div class="mission" style="animation-delay:' + delay + 'ms">';
-      delay += 70;
-      html +=
-        '<div class="mission-head">' +
-          '<div class="m-name">' + esc(nom) + "</div>" +
-          '<div class="m-sub">' + (m.lieu ? "📍 " + esc(m.lieu) + " · " : "") +
-            libres + " place" + (libres > 1 ? "s" : "") + " à pourvoir</div>" +
-          (m.notes ? '<div class="m-notes">' + esc(m.notes) + "</div>" : "") +
-        "</div>";
-      m.items.forEach(function(c) { html += slot(c); });
-      html += "</div>";
+    var dispo = data.creneaux.filter(function(c){ return !c.passe; });
+    if(!dispo.length){
+      liste.innerHTML = '<div class="state">Aucun créneau ouvert pour le moment.<br>Revenez bientôt !</div>';
+      return;
+    }
+
+    // Regroupe : jour -> mission -> créneaux
+    var jours = {}, ordreJours = [];
+    dispo.forEach(function(c){
+      if(!jours[c.dateISO]){ jours[c.dateISO] = {label:c.dateLabel, missions:{}, ordre:[]}; ordreJours.push(c.dateISO); }
+      var jr = jours[c.dateISO];
+      if(!jr.missions[c.mission]){ jr.missions[c.mission] = {lieu:c.lieu, notes:c.notes, items:[]}; jr.ordre.push(c.mission); }
+      jr.missions[c.mission].items.push(c);
     });
-    html += "</div>";
-  });
-  html += pied();
-  app.innerHTML = html;
-}
 
-function slot(c) {
-  var full = c.restantes <= 0;
-  var cls  = full ? "no" : (c.restantes <= 2 ? "low" : "ok");
-  var txt  = full ? "Complet" : (c.restantes + " place" + (c.restantes > 1 ? "s" : ""));
-  return (
-    '<div class="slot" id="slot-' + c.id + '">' +
+    var html = '', delay = 0;
+    ordreJours.forEach(function(iso){
+      var jr = jours[iso];
+      html += '<div class="day"><div class="day-label">' + jr.label + '</div>';
+      jr.ordre.forEach(function(nom){
+        var m = jr.missions[nom];
+        var libres = m.items.reduce(function(s,c){ return s + c.restantes; }, 0);
+        html += '<div class="mission" style="animation-delay:' + delay + 'ms">';
+        delay += 70;
+        html += '<div class="mission-head">' +
+                  '<div class="m-name">' + esc(nom) + '</div>' +
+                  '<div class="m-sub">' + (m.lieu ? '📍 ' + esc(m.lieu) + ' · ' : '') +
+                    libres + ' place' + (libres>1?'s':'') + ' à pourvoir</div>' +
+                  (m.notes ? '<div class="m-notes">' + esc(m.notes) + '</div>' : '') +
+                '</div>';
+        m.items.forEach(function(c){ html += slot(c); });
+        html += '</div>';
+      });
+      html += '</div>';
+    });
+    liste.innerHTML = html;
+  }
+
+  function slot(c){
+    var full = c.restantes <= 0;
+    var cls = full ? 'no' : (c.restantes <= 2 ? 'low' : 'ok');
+    var txt = full ? 'Complet' : (c.restantes + ' place' + (c.restantes>1?'s':''));
+    return '<div class="slot" id="slot-' + c.id + '">' +
       '<div class="slot-row">' +
-        '<span class="slot-time">' + esc(c.debut) + " – " + esc(c.fin) + "</span>" +
+        '<span class="slot-time">' + esc(c.debut) + ' – ' + esc(c.fin) + '</span>' +
         '<span class="slot-right">' +
-          '<span class="pill ' + cls + '">' + txt + "</span>" +
+          '<span class="pill ' + cls + '">' + txt + '</span>' +
           (full
             ? '<button class="add" disabled>Complet</button>'
             : '<button class="add" onclick="ouvrir(\'' + c.id + '\')">Je m\'inscris</button>') +
-        "</span>" +
-      "</div>" +
-      (full ? "" :
+        '</span>' +
+      '</div>' +
+      (full ? '' :
         '<div class="form" id="form-' + c.id + '">' +
-          '<input id="nom-'  + c.id + '" placeholder="Prénom et nom" autocomplete="name">' +
+          '<input id="nom-' + c.id + '" placeholder="Prénom et nom" autocomplete="name">' +
           '<div class="frow">' +
             '<input id="mail-' + c.id + '" type="email" placeholder="E-mail" autocomplete="email">' +
-            '<input id="tel-'  + c.id + '" placeholder="Téléphone (option.)" autocomplete="tel">' +
-          "</div>" +
+            '<input id="tel-' + c.id + '" placeholder="Téléphone (option.)" autocomplete="tel">' +
+          '</div>' +
           '<div class="err" id="err-' + c.id + '" style="display:none"></div>' +
           '<div class="factions">' +
             '<button class="btn ghost" onclick="fermer(\'' + c.id + '\')">Annuler</button>' +
             '<button class="btn" id="go-' + c.id + '" onclick="valider(\'' + c.id + '\')">Valider</button>' +
-          "</div>" +
-        "</div>") +
-    "</div>"
-  );
-}
+          '</div>' +
+        '</div>') +
+    '</div>';
+  }
 
-// ---- Formulaire ----
-function ouvrir(id) {
-  document.getElementById("form-" + id).classList.add("open");
-  document.getElementById("nom-" + id).focus();
-}
-function fermer(id) { document.getElementById("form-" + id).classList.remove("open"); }
+  function ouvrir(id){ document.getElementById('form-'+id).classList.add('open');
+    document.getElementById('nom-'+id).focus(); }
+  function fermer(id){ document.getElementById('form-'+id).classList.remove('open'); }
 
-function valider(id) {
-  var nom  = v("nom-"  + id);
-  var mail = v("mail-" + id);
-  var tel  = v("tel-"  + id);
-  var err  = document.getElementById("err-" + id);
-  var go   = document.getElementById("go-"  + id);
-  err.style.display = "none";
-  go.disabled = true; go.textContent = "Envoi…";
+  function valider(id){
+    var nom = v('nom-'+id), mail = v('mail-'+id), tel = v('tel-'+id);
+    var err = document.getElementById('err-'+id); err.style.display='none';
+    var go = document.getElementById('go-'+id); go.disabled = true; go.textContent = 'Envoi…';
+    google.script.run
+      .withSuccessHandler(function(res){
+        if(res.ok){
+          document.getElementById('slot-'+id).innerHTML = '<div class="done">✅ ' + esc(res.message) + '</div>';
+        } else {
+          err.textContent = res.message; err.style.display='block';
+          go.disabled = false; go.textContent = 'Valider';
+        }
+      })
+      .withFailureHandler(function(){
+        err.textContent = 'Erreur réseau, réessayez.'; err.style.display='block';
+        go.disabled = false; go.textContent = 'Valider';
+      })
+      .reserver(id, nom, mail, tel);
+  }
 
-  var url = API + "?action=reserver" +
-    "&creneauId=" + encodeURIComponent(id) +
-    "&nom="       + encodeURIComponent(nom) +
-    "&email="     + encodeURIComponent(mail) +
-    "&telephone=" + encodeURIComponent(tel);
+  function v(id){ return document.getElementById(id).value; }
+  function esc(s){ return String(s==null?'':s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  jsonp(url, function(res) {
-    if (!res) {
-      err.textContent = "Erreur réseau, réessayez.";
-      err.style.display = "block";
-      go.disabled = false; go.textContent = "Valider";
-      return;
-    }
-    if (res.ok) {
-      document.getElementById("slot-" + id).innerHTML =
-        '<div class="done">✅ ' + esc(res.message) + "</div>";
-    } else {
-      err.textContent = res.message;
-      err.style.display = "block";
-      go.disabled = false; go.textContent = "Valider";
-    }
-  });
-}
-
-// ---- Annulation (lien e-mail ?annuler=TOKEN) ----
-function afficherAnnulation(token) {
-  app.innerHTML =
-    '<div class="cancel-box"><h2>Annulation</h2>' +
-    '<div class="cancel-msg"><div class="spin" style="width:22px;height:22px;margin:0 auto 10px"></div>Traitement en cours…</div></div>';
-
-  jsonp(API + "?action=annuler&t=" + encodeURIComponent(token), function(res) {
-    if (!res) {
-      app.innerHTML = '<div class="cancel-box"><div class="cancel-msg">Erreur réseau. Réessayez.</div></div>';
-      return;
-    }
-    app.innerHTML =
-      '<div class="cancel-box">' +
-        "<h2>" + (res.ok ? "✅ Inscription annulée" : "Information") + "</h2>" +
-        '<div class="cancel-msg">' + esc(res.message) + "</div>" +
-        '<p style="margin-top:20px"><a href="' + window.location.pathname + '" style="color:var(--terra)">← Retour aux créneaux</a></p>' +
-      "</div>";
-  });
-}
-
-// ---- Utilitaires ----
-function pied() { return '<footer>Merci pour votre engagement 🧡</footer>'; }
-function v(id)  { return document.getElementById(id).value; }
-function esc(s) {
-  return String(s == null ? "" : s)
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-}
+  init();
 </script>
 </body>
 </html>
