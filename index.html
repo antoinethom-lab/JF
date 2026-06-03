@@ -84,81 +84,59 @@
 </div>
 
 <script>
-// =====================================================================
-//  CONFIGURATION — mettre à jour si l'URL Apps Script change
-// =====================================================================
-var API = "https://script.google.com/macros/s/AKfycbwc3nf-ouFEfEQs1PkwA4oB_UADkYUCDYJ1NManjvg1gRX_KblhrxFm9cjTf9rr3F0o/exec";
-// =====================================================================
+// ================================================================
+//  ⚠️  Remplace par l'URL de ton Cloudflare Worker après déploiement
+//  Exemple : "https://benevoles-ape.ton-pseudo.workers.dev"
+// ================================================================
+var API = "workerjf.atomntime.workers.dev";
+// ================================================================
 
 var app = document.getElementById("app");
 
-// ---- JSONP : contourne les CORS de Safari iOS ----
-// Injecte une balise <script> au lieu d'un fetch(),
-// donc aucune restriction navigateur quelle que soit la plateforme.
-function jsonp(url, cb) {
-  var fn = "_cb" + Date.now() + Math.floor(Math.random() * 1000);
-  var s  = document.createElement("script");
-  var timer = setTimeout(function() {
-    delete window[fn];
-    if (s.parentNode) s.parentNode.removeChild(s);
-    cb(null); // timeout après 12 s
-  }, 12000);
-  window[fn] = function(data) {
-    clearTimeout(timer);
-    delete window[fn];
-    if (s.parentNode) s.parentNode.removeChild(s);
-    cb(data);
-  };
-  s.onerror = function() {
-    clearTimeout(timer);
-    delete window[fn];
-    cb(null);
-  };
-  s.src = url + (url.indexOf("?") >= 0 ? "&" : "?") + "callback=" + fn;
-  document.head.appendChild(s);
+function get(params) {
+  var url = API + "?" + new URLSearchParams(params).toString();
+  return fetch(url).then(function(r) { return r.json(); });
 }
 
-// ---- Initialisation ----
 var params     = new URLSearchParams(window.location.search);
 var tokenAnnul = params.get("annuler");
-if (tokenAnnul) {
-  afficherAnnulation(tokenAnnul);
-} else {
-  chargerCreneaux();
-}
+if (tokenAnnul) { afficherAnnulation(tokenAnnul); }
+else            { chargerCreneaux(); }
 
-// ---- Chargement des créneaux ----
+/* ----- Chargement ------------------------------------------------- */
 function chargerCreneaux() {
-  jsonp(API + "?action=getDonnees", function(data) {
-    if (!data) {
-      app.innerHTML = '<div class="state">⚠️ Impossible de charger les créneaux.<br>Vérifiez votre connexion et rechargez.</div>';
-      return;
-    }
-    render(data);
-  });
+  get({ action: "getDonnees" })
+    .then(render)
+    .catch(function() {
+      app.innerHTML =
+        '<div class="state">⚠️ Impossible de charger les créneaux.<br>Vérifiez votre connexion et rechargez.</div>';
+    });
 }
 
-// ---- Rendu principal ----
+/* ----- Rendu ------------------------------------------------------ */
 function render(data) {
   var dispo = data.creneaux.filter(function(c) { return !c.passe; });
-
   var header =
-    "<header>" +
-      '<div class="kicker">Bénévolat</div>' +
-      "<h1>" + esc(data.association) + "</h1>" +
-      '<p class="lead">' + esc(data.sousTitre || "") + "</p>" +
-    "</header>";
+    "<header><div class='kicker'>Bénévolat</div><h1>" + esc(data.association) +
+    "</h1><p class='lead'>" + esc(data.sousTitre || "") + "</p></header>";
 
   if (!dispo.length) {
-    app.innerHTML = header + '<div class="state">Aucun créneau ouvert pour le moment.<br>Revenez bientôt !</div>' + pied();
+    app.innerHTML = header +
+      '<div class="state">Aucun créneau ouvert pour le moment.<br>Revenez bientôt !</div>' + pied();
     return;
   }
 
   var jours = {}, ordreJours = [];
   dispo.forEach(function(c) {
-    if (!jours[c.dateISO]) { jours[c.dateISO] = { label: c.dateLabel, missions: {}, ordre: [] }; ordreJours.push(c.dateISO); }
+    if (!jours[c.dateISO]) {
+      jours[c.dateISO] = { label: c.dateLabel, missions: {}, ordre: [] };
+      ordreJours.push(c.dateISO);
+    }
     var jr = jours[c.dateISO];
-    if (!jr.missions[c.mission]) { jr.missions[c.mission] = { lieu: c.lieu, notes: c.notes, items: [] }; jr.ordre.push(c.mission); }
+    if (!jr.missions[c.mission]) {
+      jr.missions[c.mission] = { lieu: c.lieu, notes: c.notes, items: [] };
+      jr.ordre.push(c.mission);
+    }
     jr.missions[c.mission].items.push(c);
   });
 
@@ -172,19 +150,16 @@ function render(data) {
       html += '<div class="mission" style="animation-delay:' + delay + 'ms">';
       delay += 70;
       html +=
-        '<div class="mission-head">' +
-          '<div class="m-name">' + esc(nom) + "</div>" +
-          '<div class="m-sub">' + (m.lieu ? "📍 " + esc(m.lieu) + " · " : "") +
-            libres + " place" + (libres > 1 ? "s" : "") + " à pourvoir</div>" +
-          (m.notes ? '<div class="m-notes">' + esc(m.notes) + "</div>" : "") +
-        "</div>";
+        '<div class="mission-head"><div class="m-name">' + esc(nom) + "</div>" +
+        '<div class="m-sub">' + (m.lieu ? "📍 " + esc(m.lieu) + " · " : "") +
+          libres + " place" + (libres > 1 ? "s" : "") + " à pourvoir</div>" +
+        (m.notes ? '<div class="m-notes">' + esc(m.notes) + "</div>" : "") + "</div>";
       m.items.forEach(function(c) { html += slot(c); });
       html += "</div>";
     });
     html += "</div>";
   });
-  html += pied();
-  app.innerHTML = html;
+  app.innerHTML = html + pied();
 }
 
 function slot(c) {
@@ -204,10 +179,10 @@ function slot(c) {
       "</div>" +
       (full ? "" :
         '<div class="form" id="form-' + c.id + '">' +
-          '<input id="nom-'  + c.id + '" placeholder="Prénom et nom" autocomplete="name">' +
+          '<input id="nom-' + c.id + '" placeholder="Prénom et nom" autocomplete="name">' +
           '<div class="frow">' +
             '<input id="mail-' + c.id + '" type="email" placeholder="E-mail" autocomplete="email">' +
-            '<input id="tel-'  + c.id + '" placeholder="Téléphone (option.)" autocomplete="tel">' +
+            '<input id="tel-' + c.id + '" placeholder="Téléphone (option.)" autocomplete="tel">' +
           "</div>" +
           '<div class="err" id="err-' + c.id + '" style="display:none"></div>' +
           '<div class="factions">' +
@@ -219,7 +194,7 @@ function slot(c) {
   );
 }
 
-// ---- Formulaire ----
+/* ----- Formulaire ------------------------------------------------- */
 function ouvrir(id) {
   document.getElementById("form-" + id).classList.add("open");
   document.getElementById("nom-" + id).focus();
@@ -227,59 +202,48 @@ function ouvrir(id) {
 function fermer(id) { document.getElementById("form-" + id).classList.remove("open"); }
 
 function valider(id) {
-  var nom  = v("nom-"  + id);
-  var mail = v("mail-" + id);
-  var tel  = v("tel-"  + id);
+  var nom  = v("nom-"  + id), mail = v("mail-" + id), tel = v("tel-" + id);
   var err  = document.getElementById("err-" + id);
   var go   = document.getElementById("go-"  + id);
   err.style.display = "none";
   go.disabled = true; go.textContent = "Envoi…";
 
-  var url = API + "?action=reserver" +
-    "&creneauId=" + encodeURIComponent(id) +
-    "&nom="       + encodeURIComponent(nom) +
-    "&email="     + encodeURIComponent(mail) +
-    "&telephone=" + encodeURIComponent(tel);
-
-  jsonp(url, function(res) {
-    if (!res) {
-      err.textContent = "Erreur réseau, réessayez.";
-      err.style.display = "block";
+  get({ action: "reserver", creneauId: id, nom: nom, email: mail, telephone: tel })
+    .then(function(res) {
+      if (res.ok) {
+        document.getElementById("slot-" + id).innerHTML =
+          '<div class="done">✅ ' + esc(res.message) + "</div>";
+      } else {
+        err.textContent = res.message; err.style.display = "block";
+        go.disabled = false; go.textContent = "Valider";
+      }
+    })
+    .catch(function() {
+      err.textContent = "Erreur réseau, réessayez."; err.style.display = "block";
       go.disabled = false; go.textContent = "Valider";
-      return;
-    }
-    if (res.ok) {
-      document.getElementById("slot-" + id).innerHTML =
-        '<div class="done">✅ ' + esc(res.message) + "</div>";
-    } else {
-      err.textContent = res.message;
-      err.style.display = "block";
-      go.disabled = false; go.textContent = "Valider";
-    }
-  });
+    });
 }
 
-// ---- Annulation (lien e-mail ?annuler=TOKEN) ----
+/* ----- Annulation ------------------------------------------------- */
 function afficherAnnulation(token) {
   app.innerHTML =
     '<div class="cancel-box"><h2>Annulation</h2>' +
-    '<div class="cancel-msg"><div class="spin" style="width:22px;height:22px;margin:0 auto 10px"></div>Traitement en cours…</div></div>';
+    '<div class="cancel-msg"><div class="spin" style="width:22px;height:22px;margin:0 auto 10px"></div>Traitement…</div></div>';
 
-  jsonp(API + "?action=annuler&t=" + encodeURIComponent(token), function(res) {
-    if (!res) {
-      app.innerHTML = '<div class="cancel-box"><div class="cancel-msg">Erreur réseau. Réessayez.</div></div>';
-      return;
-    }
-    app.innerHTML =
-      '<div class="cancel-box">' +
-        "<h2>" + (res.ok ? "✅ Inscription annulée" : "Information") + "</h2>" +
+  get({ action: "annuler", t: token })
+    .then(function(res) {
+      app.innerHTML =
+        '<div class="cancel-box"><h2>' + (res.ok ? "✅ Inscription annulée" : "Information") + "</h2>" +
         '<div class="cancel-msg">' + esc(res.message) + "</div>" +
-        '<p style="margin-top:20px"><a href="' + window.location.pathname + '" style="color:var(--terra)">← Retour aux créneaux</a></p>' +
-      "</div>";
-  });
+        '<p style="margin-top:20px"><a href="' + window.location.pathname +
+        '" style="color:var(--terra)">← Retour aux créneaux</a></p></div>';
+    })
+    .catch(function() {
+      app.innerHTML = '<div class="cancel-box"><div class="cancel-msg">Erreur réseau.</div></div>';
+    });
 }
 
-// ---- Utilitaires ----
+/* ----- Utilitaires ------------------------------------------------ */
 function pied() { return '<footer>Merci pour votre engagement 🧡</footer>'; }
 function v(id)  { return document.getElementById(id).value; }
 function esc(s) {
