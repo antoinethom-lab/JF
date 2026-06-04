@@ -88,7 +88,7 @@
 // =====================================================================
 //  CONFIGURATION — mettre à jour si l'URL Apps Script change
 // =====================================================================
-var API = "https://script.google.com/macros/s/AKfycbz7xjuUW9BWuBZDXSGH0YDGpPGZhnnbMETtUgL_F1RNv8cvko6AhsDZLv-Xf9-GA2jp/exec";
+var API = "https://script.google.com/macros/s/AKfycbz14Fujbc7qqnxgG6XApdf8sF1HWCKRShDtwtQsfVao1LNhG779B2GI2lco5iqPRw/exec";
 // =====================================================================
 
 var app = document.getElementById("app");
