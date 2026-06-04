@@ -229,6 +229,7 @@ function slot(c) {
             '<input id="mail-' + c.id + '" type="email" placeholder="E-mail" autocomplete="email">' +
             '<input id="tel-'  + c.id + '" placeholder="Téléphone" autocomplete="tel">' +
           "</div>" +
+          '<input id="pax-' + c.id + '" type="number" min="1" max="50" placeholder="Nb de personnes (pizza uniquement)">' +
           '<div class="err" id="err-' + c.id + '" style="display:none"></div>' +
           '<div class="factions">' +
             '<button class="btn ghost" onclick="fermer(\'' + c.id + '\')">Annuler</button>' +
@@ -250,6 +251,7 @@ function valider(id) {
   var nom  = v("nom-"  + id);
   var mail = v("mail-" + id);
   var tel  = v("tel-"  + id);
+  var pax  = v("pax-"  + id);
   var err  = document.getElementById("err-" + id);
   var go   = document.getElementById("go-"  + id);
   err.style.display = "none";
@@ -260,6 +262,7 @@ function valider(id) {
     "&nom="       + encodeURIComponent(nom) +
     "&email="     + encodeURIComponent(mail) +
     "&telephone=" + encodeURIComponent(tel);
+    "&personnes=" + encodeURIComponent(pax);
 
   jsonp(url, function(res) {
     if (!res) {
