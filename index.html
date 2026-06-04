@@ -102,7 +102,7 @@ function jsonp(url, cb) {
     delete window[fn];
     if (s.parentNode) s.parentNode.removeChild(s);
     cb(null); // timeout après 12 s
-  }, 12000);
+  }, 25000);
   window[fn] = function(data) {
     clearTimeout(timer);
     delete window[fn];
@@ -127,11 +127,22 @@ if (tokenAnnul) {
   chargerCreneaux();
 }
 
-// ---- Chargement des créneaux ----
-function chargerCreneaux() {
+// ---- Chargement des créneaux (avec réessai auto si script "froid") ----
+function chargerCreneaux(essai) {
+  essai = essai || 1;
+  if (essai === 1) {
+    app.innerHTML = '<div class="state"><div class="spin"></div>Chargement…</div>';
+  } else {
+    app.innerHTML = '<div class="state"><div class="spin"></div>Le serveur démarre, un instant…</div>';
+  }
   jsonp(API + "?action=getDonnees", function(data) {
     if (!data) {
-      app.innerHTML = '<div class="state">⚠️ Impossible de charger les créneaux.<br>Vérifiez votre connexion et rechargez.</div>';
+      if (essai < 2) { chargerCreneaux(essai + 1); return; }
+      app.innerHTML =
+        '<div class="state">⚠️ Impossible de charger les créneaux.<br>' +
+        'Le serveur a mis trop de temps à répondre.<br><br>' +
+        '<button class="btn" style="max-width:200px;margin:0 auto" ' +
+        'onclick="chargerCreneaux(1)">Réessayer</button></div>';
       return;
     }
     render(data);
