@@ -75,6 +75,7 @@
   .cancel-box h2{font-family:"Fraunces",serif;font-size:1.6rem;margin-bottom:16px}
   .cancel-msg{background:var(--paper);border:1px solid var(--line);border-radius:14px;
     padding:20px;font-size:1rem;box-shadow:var(--shadow)}
+  .benevoles{font-size:.82rem;color:var(--muted);margin-top:6px;font-style:italic;padding-bottom:2px}
   footer{margin-top:42px;text-align:center;color:var(--muted);font-size:.82rem}
 </style>
 </head>
@@ -202,6 +203,13 @@ function slot(c) {
   var full = c.restantes <= 0;
   var cls  = full ? "no" : (c.restantes <= 2 ? "low" : "ok");
   var txt  = full ? "Complet" : (c.restantes + " place" + (c.restantes > 1 ? "s" : ""));
+
+  var listeBenevoles = "";
+  if (c.benevoles && c.benevoles.length) {
+    listeBenevoles =
+      '<div class="benevoles">\ud83d\udc65 D\u00e9j\u00e0 inscrit\u00b7es : ' +
+      c.benevoles.map(esc).join(", ") + "</div>";
+  }
   return (
     '<div class="slot" id="slot-' + c.id + '">' +
       '<div class="slot-row">' +
@@ -213,6 +221,7 @@ function slot(c) {
             : '<button class="add" onclick="ouvrir(\'' + c.id + '\')">Je m\'inscris</button>') +
         "</span>" +
       "</div>" +
+      listeBenevoles +
       (full ? "" :
         '<div class="form" id="form-' + c.id + '">' +
           '<input id="nom-'  + c.id + '" placeholder="Prénom et nom" autocomplete="name">' +
