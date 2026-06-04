@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kermesse Ecole Les 4 Vents</title>
+<title>Kermesse de l'école Les 4 Vents</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -75,7 +75,6 @@
   .cancel-box h2{font-family:"Fraunces",serif;font-size:1.6rem;margin-bottom:16px}
   .cancel-msg{background:var(--paper);border:1px solid var(--line);border-radius:14px;
     padding:20px;font-size:1rem;box-shadow:var(--shadow)}
-  .benevoles{font-size:.82rem;color:var(--muted);margin-top:6px;font-style:italic;padding-bottom:2px}
   footer{margin-top:42px;text-align:center;color:var(--muted);font-size:.82rem}
 </style>
 </head>
@@ -88,7 +87,7 @@
 // =====================================================================
 //  CONFIGURATION — mettre à jour si l'URL Apps Script change
 // =====================================================================
-var API = "https://script.google.com/macros/s/AKfycbwc3nf-ouFEfEQs1PkwA4oB_UADkYUCDYJ1NManjvg1gRX_KblhrxFm9cjTf9rr3F0o/exec";
+var API = "https://script.google.com/macros/s/AKfycbz14Fujbc7qqnxgG6XApdf8sF1HWCKRShDtwtQsfVao1LNhG779B2GI2lco5iqPRw/exec";
 // =====================================================================
 
 var app = document.getElementById("app");
@@ -102,8 +101,8 @@ function jsonp(url, cb) {
   var timer = setTimeout(function() {
     delete window[fn];
     if (s.parentNode) s.parentNode.removeChild(s);
-    cb(null); // timeout après 12 s
-  }, 25000);
+    cb(null); // timeout après 40 s
+  }, 40000);
   window[fn] = function(data) {
     clearTimeout(timer);
     delete window[fn];
@@ -138,7 +137,7 @@ function chargerCreneaux(essai) {
   }
   jsonp(API + "?action=getDonnees", function(data) {
     if (!data) {
-      if (essai < 2) { chargerCreneaux(essai + 1); return; }
+      if (essai < 3) { chargerCreneaux(essai + 1); return; }
       app.innerHTML =
         '<div class="state">⚠️ Impossible de charger les créneaux.<br>' +
         'Le serveur a mis trop de temps à répondre.<br><br>' +
@@ -203,14 +202,6 @@ function slot(c) {
   var full = c.restantes <= 0;
   var cls  = full ? "no" : (c.restantes <= 2 ? "low" : "ok");
   var txt  = full ? "Complet" : (c.restantes + " place" + (c.restantes > 1 ? "s" : ""));
-
-  var listeBenevoles = "";
-  if (c.benevoles && c.benevoles.length) {
-    listeBenevoles =
-      '<div class="benevoles">👥 Déjà inscrit·es : ' +
-      c.benevoles.map(esc).join(", ") + "</div>";
-  }
-
   return (
     '<div class="slot" id="slot-' + c.id + '">' +
       '<div class="slot-row">' +
@@ -222,13 +213,12 @@ function slot(c) {
             : '<button class="add" onclick="ouvrir(\'' + c.id + '\')">Je m\'inscris</button>') +
         "</span>" +
       "</div>" +
-      listeBenevoles +
       (full ? "" :
         '<div class="form" id="form-' + c.id + '">' +
           '<input id="nom-'  + c.id + '" placeholder="Prénom et nom" autocomplete="name">' +
           '<div class="frow">' +
             '<input id="mail-' + c.id + '" type="email" placeholder="E-mail" autocomplete="email">' +
-            '<input id="tel-'  + c.id + '" placeholder="Téléphone (option.)" autocomplete="tel">' +
+            '<input id="tel-'  + c.id + '" placeholder="Téléphone" autocomplete="tel">' +
           "</div>" +
           '<div class="err" id="err-' + c.id + '" style="display:none"></div>' +
           '<div class="factions">' +
